@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>AMDatabaseAccountName</key>
+    <string>AZURE_MOBILE_FUNCTION_APP_NAME</string>
+    <key>AZURE_MOBILE_COSMOS_DB_ACCOUNT_NAME</key>
+    <string>kaylawilliamsjewelry</string>
     <key>CustomVisionProjectId</key>
     <string>CUSTOM_VISION_PROJECT_ID</string>
     <key>CustomVisionTrainingKey</key>

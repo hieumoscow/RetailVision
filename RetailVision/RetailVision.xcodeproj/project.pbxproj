@@ -32,7 +32,8 @@
 		9365559820914CC700570809 /* ProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558D20914CC600570809 /* ProductManager.swift */; };
 		9365559920914CC700570809 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558E20914CC700570809 /* CurrencyFormatter.swift */; };
 		9365559A20914CC700570809 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558F20914CC700570809 /* ImageExtensions.swift */; };
-		93978F762092B61300DC78C3 /* CustomVision.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93978F752092B61300DC78C3 /* CustomVision.plist */; };
+		93978F782092B6FD00DC78C3 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93978F772092B6FD00DC78C3 /* UtilityExtensions.swift */; };
+		93978F7A2092B8A400DC78C3 /* RetailVision.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93978F792092B8A400DC78C3 /* RetailVision.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,7 +64,8 @@
 		9365558D20914CC600570809 /* ProductManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductManager.swift; sourceTree = "<group>"; };
 		9365558E20914CC700570809 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
 		9365558F20914CC700570809 /* ImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
-		93978F752092B61300DC78C3 /* CustomVision.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CustomVision.plist; sourceTree = "<group>"; };
+		93978F772092B6FD00DC78C3 /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
+		93978F792092B8A400DC78C3 /* RetailVision.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RetailVision.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +125,8 @@
 				933D075D2091490C00B44655 /* Assets.xcassets */,
 				933D075F2091490C00B44655 /* LaunchScreen.storyboard */,
 				933D075A2091490B00B44655 /* Main.storyboard */,
-				93978F752092B61300DC78C3 /* CustomVision.plist */,
+				93978F772092B6FD00DC78C3 /* UtilityExtensions.swift */,
+				93978F792092B8A400DC78C3 /* RetailVision.plist */,
 			);
 			path = RetailVision;
 			sourceTree = "<group>";
@@ -206,8 +209,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				933D07612091490C00B44655 /* LaunchScreen.storyboard in Resources */,
-				93978F762092B61300DC78C3 /* CustomVision.plist in Resources */,
 				933D075E2091490C00B44655 /* Assets.xcassets in Resources */,
+				93978F7A2092B8A400DC78C3 /* RetailVision.plist in Resources */,
 				933D075C2091490B00B44655 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +275,7 @@
 			files = (
 				9365559120914CC700570809 /* ImageCollectionViewController.swift in Sources */,
 				9365559920914CC700570809 /* CurrencyFormatter.swift in Sources */,
+				93978F782092B6FD00DC78C3 /* UtilityExtensions.swift in Sources */,
 				9365559820914CC700570809 /* ProductManager.swift in Sources */,
 				9365559620914CC700570809 /* ProductTableViewController.swift in Sources */,
 				9365559420914CC700570809 /* ProductFormViewController.swift in Sources */,

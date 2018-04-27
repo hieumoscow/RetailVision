@@ -271,19 +271,17 @@ class ProductManager {
 
     func configure() {
         
-        let functionName = UserDefaults.standard.string(forKey: functionAppNameKey)     ?? Bundle.main.infoDictionary?[functionAppNameKey]      as? String
-        let databaseName = UserDefaults.standard.string(forKey: databaseAccountNameKey) ?? Bundle.main.infoDictionary?[databaseAccountNameKey]  as? String
+        CustomVisionClient.shared.getKeysFromPlist(customPlistName: "RetailVision")
         
-        storeDatabaseAccount(functionName: functionName, databaseName: databaseName, andConfigure: true)
+        let dict = Bundle.main.plistDict(named: "RetailVision")
+        
+        storeDatabaseAccount(functionName: dict?[functionAppNameKey], databaseName: dict?[databaseAccountNameKey], andConfigure: true)
     }
     
     
     func storeDatabaseAccount(functionName: String?, databaseName: String?, andConfigure configure: Bool = false) {
         
         print("storeDatabaseAccount functionName: \(functionName ?? "nil") databaseName: \(databaseName ?? "nil")")
-        
-        UserDefaults.standard.set(functionName, forKey: functionAppNameKey)
-        UserDefaults.standard.set(databaseName, forKey: databaseAccountNameKey)
         
         if let f = functionName, f != functionAppNameKeyDefault, let d = databaseName, d != databaseAccountNameKeyDefault, let baseUrl = URL(string: "https://\(f).azurewebsites.net") {
             if !AzureData.isConfigured() && configure { AzureData.configure(forAccountNamed: d, withPermissionProvider: DefaultPermissionProvider(withBaseUrl: baseUrl)) }
