@@ -265,38 +265,16 @@ class ProductManager {
     
     let functionAppNameKey      = "AMFunctionAppName"
     let databaseAccountNameKey  = "AMDatabaseAccountName"
-    let customVisionProjectKey  = "CVProjectId"
-    let customVisionTrainingKey = "CVTrainingKey"
     
     let functionAppNameKeyDefault       = "AZURE_MOBILE_FUNCTION_APP_NAME"
     let databaseAccountNameKeyDefault   = "AZURE_MOBILE_COSMOS_DB_ACCOUNT_NAME"
-    let customVisionProjectKeyDefault   = "CUSTOM_VISION_PROJECT_KEY"
-    let customVisionTrainingKeyDefault  = "CUSTOM_VISION_TRAINING_KEY"
 
     func configure() {
-        
-        let cvProjectKey  = UserDefaults.standard.string(forKey: customVisionProjectKey)  ?? Bundle.main.infoDictionary?[customVisionProjectKey]  as? String
-        let cvTrainingKey = UserDefaults.standard.string(forKey: customVisionTrainingKey) ?? Bundle.main.infoDictionary?[customVisionTrainingKey] as? String
-        
-        storeCustomVisionKeys(projectKey: cvProjectKey, trainingKey: cvTrainingKey)
         
         let functionName = UserDefaults.standard.string(forKey: functionAppNameKey)     ?? Bundle.main.infoDictionary?[functionAppNameKey]      as? String
         let databaseName = UserDefaults.standard.string(forKey: databaseAccountNameKey) ?? Bundle.main.infoDictionary?[databaseAccountNameKey]  as? String
         
         storeDatabaseAccount(functionName: functionName, databaseName: databaseName, andConfigure: true)
-    }
-    
-    func storeCustomVisionKeys(projectKey: String?, trainingKey: String?) {
-        
-        UserDefaults.standard.set(projectKey, forKey: customVisionProjectKey)
-        UserDefaults.standard.set(trainingKey, forKey: customVisionTrainingKey)
-
-        if let p = projectKey, p != customVisionProjectKeyDefault, let t = trainingKey, t != customVisionTrainingKeyDefault {
-            
-            CustomVisionClient.defaultProjectId = p
-        
-            visionClient.trainingKey = t
-        }
     }
     
     
