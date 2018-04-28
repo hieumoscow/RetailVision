@@ -18,7 +18,6 @@ class Product: Document {
     var tags: [String] = []
     var price: Double?
     var inventory: Double?
-    var jewelryType: JewelryType?
     
     public override init () { super.init() }
     public override init (_ id: String) { super.init(id) }
@@ -31,11 +30,7 @@ class Product: Document {
         name        = try container.decode(String?.self, forKey: .name)
         tags        = try container.decode([String].self,forKey: .tags)
         price       = try container.decode(Double?.self, forKey: .price)
-        inventory   = try container.decode(Double?.self, forKey: .inventory)
-        
-        if let decoded = try? container.decode(String?.self, forKey: .jewelryType), let jtype = decoded {
-            jewelryType = JewelryType(rawValue: jtype)
-        }
+        inventory   = try container.decode(Double?.self, forKey: .inventory)        
     }
     
     public override func encode(to encoder: Encoder) throws {
@@ -47,7 +42,6 @@ class Product: Document {
         try container.encode(tags, forKey: .tags)
         try container.encode(price, forKey: .price)
         try container.encode(inventory, forKey: .inventory)
-        try container.encode(jewelryType?.rawValue, forKey: .jewelryType)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -57,25 +51,6 @@ class Product: Document {
         case inventory
         case jewelryType
     }
-}
-
-enum JewelryType: String {
-    case earrings   = "earrings"
-    case necklaces  = "necklaces"
-    case rings      = "rings"
-    case bracelets  = "bracelets"
-
-    var singular: String {
-        switch self {
-        case .earrings:  return "earring"
-        case .necklaces: return  "necklace"
-        case .rings:     return  "ring"
-        case .bracelets: return  "bracelet"
-        }
-    }
-
-    static let all: [JewelryType] = [ .earrings, .necklaces, .rings, .bracelets ]
-    static let strings: [String]  = [ JewelryType.earrings.rawValue, JewelryType.necklaces.rawValue, JewelryType.rings.rawValue, JewelryType.bracelets.rawValue ]
 }
 
 extension Product : Equatable {
@@ -93,7 +68,6 @@ extension Product {
         case tags           = "tags"
         case price          = "price"
         case inventory      = "inventory"
-        case jewelryType    = "jewelryType"
         case saveButton     = "saveButton"
         
         
@@ -106,7 +80,6 @@ extension Product {
             case .tags:         return "Tags"
             case .price:        return "Price"
             case .inventory:    return "Inventory"
-            case .jewelryType:  return "Type"
             case .saveButton:   return "Save"
             }
         }
@@ -118,7 +91,6 @@ extension Product {
             case .tags:         return "Tags"
             case .price:        return "$0.00"
             case .inventory:    return "0"
-            case .jewelryType:  return "Type"
             case .saveButton:   return "Save"
             }
         }

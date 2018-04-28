@@ -22,6 +22,8 @@ class ProductManager {
     
     static let shared: ProductManager = ProductManager()
     
+    var visionClient: CustomVisionClient { return CustomVisionClient.shared }
+    
     let currencyFormatter: CurrencyFormatter = {
         let formatter = CurrencyFormatter()
         formatter.locale = .current
@@ -214,7 +216,7 @@ class ProductManager {
         }
     }
     
-    var visionClient: CustomVisionClient { return CustomVisionClient.shared }
+    
     
     func refreshTags() {
         
@@ -271,7 +273,7 @@ class ProductManager {
 
     func configure() {
         
-        CustomVisionClient.shared.getKeysFromPlist(customPlistName: "RetailVision")
+        visionClient.getKeysFrom(plistNamed: "RetailVision")
         
         let dict = Bundle.main.plistDict(named: "RetailVision")
         

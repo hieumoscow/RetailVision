@@ -28,7 +28,6 @@ class ProductFormViewController : FormViewController {
         let name        = Product.FormTag.name
         let tags        = Product.FormTag.tags
         let inventory   = Product.FormTag.inventory
-        let type        = Product.FormTag.jewelryType
         let price       = Product.FormTag.price
         let saveButton  = Product.FormTag.saveButton
         
@@ -41,16 +40,6 @@ class ProductFormViewController : FormViewController {
             }.onChange {
                 self.changed = true
                 self.product.name = $0.value
-            }
-        <<< PickerInlineRow<String>(type.tag) { row in
-                row.title = type.title
-                row.value = self.product.jewelryType?.rawValue ?? JewelryType.strings[0]
-                row.options = JewelryType.strings
-            }.onChange {
-                if let v = $0.value {
-                    self.changed = true
-                    self.product.jewelryType = JewelryType(rawValue: v)
-                }
             }
         <<< DecimalRow(price.tag) { row in
                 row.useFormatterDuringInput = true
