@@ -32,24 +32,72 @@ class ProductManager {
     }()
     
     
+    // MARK: - Configure
+    
+    func configure() {
+        
+        visionClient.getKeysFrom(plistNamed: "RetailVision")
+        
+        let dict = Bundle.main.plistDict(named: "RetailVision")
+        
+        storeDatabaseAccount(functionName: dict?["AMFunctionAppName"], databaseName: dict?["AMDatabaseAccountName"], andConfigure: true)
+    }
+    
+    func storeDatabaseAccount(functionName: String?, databaseName: String?, andConfigure configure: Bool = false) {
+        
+        print("storeDatabaseAccount functionName: \(functionName ?? "nil") databaseName: \(databaseName ?? "nil")")
+        
+        if let f = functionName, f != "AZURE_MOBILE_FUNCTION_APP_NAME", let d = databaseName, d != "AZURE_MOBILE_COSMOS_DB_ACCOUNT_NAME", let baseUrl = URL(string: "https://\(f).azurewebsites.net") {
+            if !AzureData.isConfigured() && configure { AzureData.configure(forAccountNamed: d, withPermissionProvider: DefaultPermissionProvider(withBaseUrl: baseUrl)) }
+        } else {
+            AzureData.reset()
+        }
+        
+        showApiKeyAlert(UIApplication.shared)
+    }
+    
+    func showApiKeyAlert(_ application: UIApplication) {
+        
+        if AzureData.isConfigured() {
+            
+            if let navController = application.keyWindow?.rootViewController as? UINavigationController, let productsController = navController.topViewController as? ProductTableViewController {
+                productsController.refreshData()
+            }
+            
+        } else {
+            
+            let alertController = UIAlertController(title: "Configure App", message: "Enter the Name of a Azure.Mobile function app and a Azure Cosmos DB account name. Or add the key in code in `applicationDidBecomeActive`", preferredStyle: .alert)
+            
+            alertController.addTextField() { textField in
+                textField.placeholder = "Function App Name"
+                textField.returnKeyType = .next
+            }
+            
+            alertController.addTextField() { textField in
+                textField.placeholder = "Database Name"
+                textField.returnKeyType = .done
+            }
+            
+            alertController.addAction(UIAlertAction(title: "Done", style: .default) { a in
+                
+                self.storeDatabaseAccount(functionName: alertController.textFields?.first?.text, databaseName: alertController.textFields?.last?.text, andConfigure: true)
+            })
+            
+            application.keyWindow?.rootViewController?.present(alertController, animated: true) { }
+        }
+    }
+
+    
+    // MARK: - Products
+    
     var collection: DocumentCollection?
     
     var products: [Product] = []
+
     
-    var tagIds: [String] = []
-    
-    var tagList: TagList? = nil {
-        didSet {
-            setTagIds()
-        }
-    }
-    
-    
-    fileprivate
-    var _selectedProduct: Product? {
-        didSet {
-            setTagIds()
-        }
+    // Selected
+    fileprivate var _selectedProduct: Product? {
+        didSet { setTagIds() }
     }
     var selectedProduct: Product {
         get {
@@ -61,33 +109,32 @@ class ProductManager {
         set { _selectedProduct = newValue }
     }
     
-    func clearSelectedProduct() {
-        _selectedProduct = nil
+    
+    // Clear
+    func clearSelectedProduct() { _selectedProduct = nil }
+    
+    
+    // Save
+    func saveSelectedProduct() {
+        saveSelectedProduct { print("finished") }
     }
     
-    func setTagIds() {
-        if _selectedProduct == nil || _selectedProduct!.tags.isEmpty {
-            tagIds = []
+    func saveSelectedProduct(_ completion: @escaping () -> Void) {
+        
+        if products.contains(selectedProduct) {
+            assert(!selectedProduct.resourceId.isEmpty, "nope")
+            
+            collection?.replace(selectedProduct) { response in
+                self.handleSaveResponse(response, completion: completion)
+            }
         } else {
-            tagIds = _selectedProduct!.tags.compactMap { t in
-                return tagList?.Tags?.first { $0.Name == t }?.Id
+            assert(selectedProduct.resourceId.isEmpty, "nope")
+            
+            collection?.create(selectedProduct) { response in
+                self.handleSaveResponse(response, completion: completion)
             }
         }
     }
-    
-    func getProduct(withName name: String) -> Product? {
-        return products.first { $0.name == name }
-    }
-    
-    func getModelUrl(fileManager: FileManager = FileManager.default, compiled: Bool = true) -> URL? {
-        return visionClient.getModelUrl()
-    }
-    
-    func trainAndDownloadCoreMLModel(withName name: String, progressUpdate update: @escaping (String) -> Void, _ completion: @escaping (Bool, String) -> Void) {
-        return visionClient.trainAndDownloadCoreMLModel(withName: name, progressUpdate: update, completion)
-    }
-    
-    
     
     func handleSaveResponse(_ response: Response<Product>, completion: @escaping () -> Void) {
         
@@ -110,28 +157,12 @@ class ProductManager {
         DispatchQueue.main.async { completion() }
     }
     
-    func saveSelectedProduct() {
-        saveSelectedProduct { print("finished") }
-    }
     
-    func saveSelectedProduct(_ completion: @escaping () -> Void) {
-        
-        if products.contains(selectedProduct) {
-            assert(!selectedProduct.resourceId.isEmpty, "nope")
-            
-            collection?.replace(selectedProduct) { response in
-                self.handleSaveResponse(response, completion: completion)
-            }
-        } else {
-            assert(selectedProduct.resourceId.isEmpty, "nope")
-            
-            collection?.create(selectedProduct) { response in
-                self.handleSaveResponse(response, completion: completion)
-            }
-        }
-    }
+    // Get
+    func get(productNamed name: String) -> Product? { return products.first { $0.name == name } }
+
     
-    
+    // Refresh
     func refresh(_ completion: @escaping () -> Void) {
         
         guard AzureData.isConfigured() else { completion(); return }
@@ -150,7 +181,6 @@ class ProductManager {
         
         refreshTags()
     }
-    
     
     func refreshCollection(_ completion: @escaping () -> Void) {
         
@@ -188,6 +218,8 @@ class ProductManager {
         }
     }
     
+    
+    // Delete
     func delete(productAt index: Int, _ completion: (Bool) -> ()) {
         
         if (index < 0 || index >= products.count) {
@@ -218,11 +250,26 @@ class ProductManager {
     
     
     
-    func refreshTags() {
-        
-        _refreshTags { _ in }
+    // MARK: - Tags
+    
+    var selectedProductTagIds: [String] = []
+    
+    var tagList: TagList? = nil {
+        didSet { setTagIds() }
     }
-
+    
+    func setTagIds() {
+        if _selectedProduct == nil || _selectedProduct!.tags.isEmpty {
+            selectedProductTagIds = []
+        } else {
+            selectedProductTagIds = _selectedProduct!.tags.compactMap { t in
+                return tagList?.Tags?.first { $0.Name == t }?.Id
+            }
+        }
+    }
+    
+    func refreshTags() { _refreshTags { _ in } }
+    
     func _refreshTags(completion: @escaping  (CustomVisionResponse<TagList>) -> Void) {
         
         visionClient.getTags { r in
@@ -240,21 +287,35 @@ class ProductManager {
     }
 
     
-    func getImagesForSelectedProduct(_ completion: @escaping (CustomVisionResponse<[Image]>) -> Void) {
-        if tagIds.isEmpty {
-            completion(CustomVisionResponse([]))
-        } else {
-            return visionClient.getTaggedImages(withTags: tagIds, completion: completion)
-        }
+    
+    // MARK: - Model Export
+    
+    func getModelUrl(fileManager: FileManager = FileManager.default, compiled: Bool = true) -> URL? {
+        return visionClient.getModelUrl()
     }
     
+    func trainAndDownloadCoreMLModel(withName name: String, progressUpdate update: @escaping (String) -> Void, _ completion: @escaping (Bool, String) -> Void) {
+        return visionClient.trainAndDownloadCoreMLModel(withName: name, progressUpdate: update, completion)
+    }
+
+    
+    
+    // MARK: - Training Images
+    
+    func getImagesForSelectedProduct(_ completion: @escaping (CustomVisionResponse<[Image]>) -> Void) {
+        if selectedProductTagIds.isEmpty {
+            completion(CustomVisionResponse([]))
+        } else {
+            return visionClient.getTaggedImages(withTags: selectedProductTagIds, completion: completion)
+        }
+    }
     
     func addImagesForSelectedProduct(_ images: [UIImage], _ completion: @escaping (CustomVisionResponse<ImageCreateSummary>) -> Void) {
         
         guard let name = selectedProduct.name else { completion(CustomVisionResponse(ProductManagerError.noProductName)); return }
         
-        if !tagIds.isEmpty {
-            return visionClient.createImages(from: images, withTagIds: tagIds, completion: completion)
+        if !selectedProductTagIds.isEmpty {
+            return visionClient.createImages(from: images, withTagIds: selectedProductTagIds, completion: completion)
         } else {
             visionClient.createImages(from: images, withNewTagNamed: name) { r in
                 self._refreshTags{ _ in
@@ -264,66 +325,9 @@ class ProductManager {
         }
     }
     
-    
-    let functionAppNameKey      = "AMFunctionAppName"
-    let databaseAccountNameKey  = "AMDatabaseAccountName"
-    
-    let functionAppNameKeyDefault       = "AZURE_MOBILE_FUNCTION_APP_NAME"
-    let databaseAccountNameKeyDefault   = "AZURE_MOBILE_COSMOS_DB_ACCOUNT_NAME"
-
-    func configure() {
+    func deleteImages(withIds imageIds: [String], _ completion: @escaping (CustomVisionResponse<Data>) -> Void) {
         
-        visionClient.getKeysFrom(plistNamed: "RetailVision")
-        
-        let dict = Bundle.main.plistDict(named: "RetailVision")
-        
-        storeDatabaseAccount(functionName: dict?[functionAppNameKey], databaseName: dict?[databaseAccountNameKey], andConfigure: true)
-    }
-    
-    
-    func storeDatabaseAccount(functionName: String?, databaseName: String?, andConfigure configure: Bool = false) {
-        
-        print("storeDatabaseAccount functionName: \(functionName ?? "nil") databaseName: \(databaseName ?? "nil")")
-        
-        if let f = functionName, f != functionAppNameKeyDefault, let d = databaseName, d != databaseAccountNameKeyDefault, let baseUrl = URL(string: "https://\(f).azurewebsites.net") {
-            if !AzureData.isConfigured() && configure { AzureData.configure(forAccountNamed: d, withPermissionProvider: DefaultPermissionProvider(withBaseUrl: baseUrl)) }
-        } else {
-            AzureData.reset()
-        }
-        
-        showApiKeyAlert(UIApplication.shared)
-    }
-    
-    
-    func showApiKeyAlert(_ application: UIApplication) {
-        
-        if AzureData.isConfigured() {
-            
-            if let navController = application.keyWindow?.rootViewController as? UINavigationController, let productsController = navController.topViewController as? ProductTableViewController {
-                productsController.refreshData()
-            }
-            
-        } else {
-            
-            let alertController = UIAlertController(title: "Configure App", message: "Enter the Name of a Azure.Mobile function app and a Azure Cosmos DB account name. Or add the key in code in `applicationDidBecomeActive`", preferredStyle: .alert)
-            
-            alertController.addTextField() { textField in
-                textField.placeholder = "Function App Name"
-                textField.returnKeyType = .next
-            }
-            
-            alertController.addTextField() { textField in
-                textField.placeholder = "Database Name"
-                textField.returnKeyType = .done
-            }
-            
-            alertController.addAction(UIAlertAction(title: "Done", style: .default) { a in
-                
-                self.storeDatabaseAccount(functionName: alertController.textFields?.first?.text, databaseName: alertController.textFields?.last?.text, andConfigure: true)
-            })
-            
-            application.keyWindow?.rootViewController?.present(alertController, animated: true) { }
-        }
+        visionClient.deleteImages(withIds: imageIds, completion: completion)
     }
 }
 

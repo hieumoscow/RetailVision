@@ -48,6 +48,8 @@ class ProductNavigationController : UINavigationController, ImagePickerDelegate 
 
     func addImages(_ imagePicker: ImagePickerController, images: [UIImage]) {
         
+        (self.topViewController as? ImageCollectionViewController)?.startLoadAnimation()
+        
         imagePicker.dismiss(animated: true) {
             ProductManager.shared.addImagesForSelectedProduct(images) { r in
                 if let error = r.error {

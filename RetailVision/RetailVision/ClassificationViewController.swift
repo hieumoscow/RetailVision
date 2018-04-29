@@ -93,7 +93,7 @@ class ClassificationViewController: UIViewController {
             // Trimming labels because they sometimes have unexpected line endings which show up in the GUI
             let name = best.identifier.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             
-            let product = ProductManager.shared.getProduct(withName: name)
+            let product = ProductManager.shared.get(productNamed: name)
             
             DispatchQueue.main.async {
                 if let product = product, product.name != nil && !product.name!.isEmpty {

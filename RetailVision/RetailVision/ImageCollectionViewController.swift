@@ -14,22 +14,33 @@ import Nuke
 
 class ImageCollectionViewController : UICollectionViewController {
     
+    @IBOutlet weak var emptyView: UIView!
     @IBOutlet var trashButton: UIBarButtonItem!
     @IBOutlet var cameraButton: UIBarButtonItem!
+    @IBOutlet var activityView: UIView!
     
+    var activityButtonItem: UIBarButtonItem!
+
     var viewSize: CGSize!
     
     var product: Product { return ProductManager.shared.selectedProduct }
     
-    var images: [CustomVision.Image] = []
+    var images: [CustomVision.Image] = [] {
+        didSet {
+            DispatchQueue.main.async { self.emptyView.isHidden = self.images.count > 0 }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = product.name
         
+        activityButtonItem = UIBarButtonItem(customView: activityView)
+
         navigationItem.leftItemsSupplementBackButton = true
-        navigationItem.setRightBarButtonItems([cameraButton, editButtonItem], animated: false)
+        
+        navigationItem.setRightBarButtonItems([cameraButton, activityButtonItem], animated: false)
         
         viewSize = view.frame.size
         
@@ -55,13 +66,22 @@ class ImageCollectionViewController : UICollectionViewController {
         }
     }
     
+    func startLoadAnimation() {
+        if let items = navigationItem.rightBarButtonItems, !items.contains(activityButtonItem) {
+            navigationItem.setRightBarButtonItems([cameraButton, activityButtonItem], animated: true)
+        }
+    }
+    
     func refreshImages() {
 
+        startLoadAnimation()
+        
         ProductManager.shared.getImagesForSelectedProduct { r in
             if let images = r.resource {
                 self.images = images
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
+                    self.navigationItem.setRightBarButtonItems([self.cameraButton, self.editButtonItem], animated: true)
                 }
             } else if let error = r.error {
                 self.showErrorAlert(error)
@@ -110,7 +130,7 @@ class ImageCollectionViewController : UICollectionViewController {
                 let imagesToDeleteIds = imagesToDelete.map { $0.Id }
                 
                 if !imagesToDeleteIds.isEmpty {
-                    ProductManager.shared.visionClient.deleteImages(withIds: imagesToDeleteIds) { r in
+                    ProductManager.shared.deleteImages(withIds: imagesToDeleteIds) { r in
                         print("Delete was \(r.result.isSuccess ? "Successful" : "Unsuccessful")")
                     }
                 }
@@ -151,14 +171,7 @@ class ImageCollectionViewController : UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if !isEditing {
-//            if media[indexPath.item].isMovie {
-//                performSegue(withIdentifier: "AVPlayerViewController", sender: collectionView.cellForItem(at: indexPath))
-//            } else {
-//                performSegue(withIdentifier: "CompassPageViewController", sender: collectionView.cellForItem(at: indexPath))
-//                //performSegue(withIdentifier: "CompassViewController", sender: collectionView.cellForItem(at: indexPath))
-//            }
-        } else if let cell = collectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell {
+        if isEditing, let cell = collectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell {
             cell.set(editingState: isEditing)
         }
     }
@@ -169,15 +182,8 @@ class ImageCollectionViewController : UICollectionViewController {
             cell.set(editingState: isEditing)
         }
     }
-    
-    override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    //override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        //media.insert(media.remove(at: sourceIndexPath.item), at: destinationIndexPath.item)
-    //}
 }
+
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
@@ -197,13 +203,6 @@ extension ImageCollectionViewController : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return Layout.spacing
-    }
-}
-
-
-extension CustomVision.Image : Equatable {
-    public static func ==(lhs: CustomVision.Image, rhs: CustomVision.Image) -> Bool {
-        return lhs.Id == rhs.Id
     }
 }
 

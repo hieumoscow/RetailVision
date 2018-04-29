@@ -15,16 +15,32 @@ import Whisper
 class ProductTableViewController : UITableViewController {
 
     @IBOutlet var addButton: UIBarButtonItem!
+    @IBOutlet var activityButton: UIView!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    
+    var activityButtonItem: UIBarButtonItem!
+    
+    var currencyFormatter: CurrencyFormatter { return ProductManager.shared.currencyFormatter }
     
     var products: [Product] { return ProductManager.shared.products }
- 
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "KWJ"
+        title = "Products"
+
+        activityButtonItem = UIBarButtonItem(customView: activityButton)
         
-        navigationItem.rightBarButtonItems = [addButton, editButtonItem]
+        if let refreshControl = refreshControl {
+            refreshControl.tintColor = #colorLiteral(red: 1, green: 0.1764705882, blue: 0.3333333333, alpha: 1)
+            tableView.contentOffset = CGPoint(x:0, y:-refreshControl.frame.size.height)
+            refreshControl.beginRefreshing()
+        }
+        
+        navigationItem.setLeftBarButtonItems([cameraButton, refreshButton], animated: false)
+        navigationItem.setRightBarButtonItems([addButton, editButtonItem], animated: false)
     }
 
     
@@ -44,8 +60,8 @@ class ProductTableViewController : UITableViewController {
     
     func refreshData() {
         ProductManager.shared.refresh {
-            self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
         }
     }
     
@@ -55,39 +71,31 @@ class ProductTableViewController : UITableViewController {
     }
     
     @IBAction func refreshModelButtonTouched(_ sender: Any) {
-        ProductManager.shared.trainAndDownloadCoreMLModel(withName: "kwjewelry", progressUpdate: self.displayMessage, self.displayFinalMessage)
+        navigationItem.setLeftBarButtonItems([cameraButton, activityButtonItem], animated: true)
+        ProductManager.shared.trainAndDownloadCoreMLModel(withName: "kwjewelry", progressUpdate: self.displayUpdateMessage, self.displayFinalMessage)
     }
     
-    let messageColor = UIColor(red: 255/255, green: 147/255, blue: 0/255,   alpha: 1)
-    let successColor = UIColor(red: 0/255,   green: 150/255, blue: 255/255, alpha: 1)
-    let failureColor = UIColor(red: 255/255, green: 126/255, blue: 121/255, alpha: 1)
-    
-    func displayMessage(message: String) {
-        displayMessage(message: message, color: messageColor)
+    func displayUpdateMessage(message: String) {
+        displayMessage(message: message)
     }
 
     func displayFinalMessage(success: Bool, message: String) {
-        displayMessage(message: message, color: success ? successColor : failureColor)
-        displayMessage(message: nil)
+        displayMessage(message: message, thenHide: true)
     }
 
-    func displayMessage(message: String?, color: UIColor = .red) {
+    func displayMessage(message: String, thenHide: Bool = false) {
         
-        guard let navController = navigationController else {
-            return
-        }
-        
-        guard let m = message, !m.isEmpty else {
-            DispatchQueue.main.async {
-                Whisper.hide(whisperFrom: navController, after: 4)
-            }
-            return
-        }
+        guard let navController = navigationController else { return }
 
         DispatchQueue.main.async {
-            Whisper.show(whisper: Message(title: m, backgroundColor: color), to: navController, action: .present)
+            Whisper.show(whisper: Message(title: message, backgroundColor: #colorLiteral(red: 1, green: 0.1764705882, blue: 0.3333333333, alpha: 1)), to: navController, action: .present)
+            if thenHide {
+                Whisper.hide(whisperFrom: navController, after: 4)
+                self.navigationItem.setLeftBarButtonItems([self.cameraButton, self.refreshButton], animated: true)
+            }
         }
     }
+    
     
     // MARK: - Table view data source
     
@@ -104,7 +112,7 @@ class ProductTableViewController : UITableViewController {
         let product = products[indexPath.row]
         
         cell.textLabel?.text = product.name ?? product.id
-        cell.detailTextLabel?.text = ProductManager.shared.currencyFormatter.string(from: NSNumber(value: product.price ?? 0))
+        cell.detailTextLabel?.text = currencyFormatter.string(from: NSNumber(value: product.price ?? 0))
         
         return cell
     }
