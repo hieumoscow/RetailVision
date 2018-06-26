@@ -12,14 +12,9 @@
 		933D075E2091490C00B44655 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 933D075D2091490C00B44655 /* Assets.xcassets */; };
 		933D07612091490C00B44655 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 933D075F2091490C00B44655 /* LaunchScreen.storyboard */; };
 		9365557B20914B3F00570809 /* Whisper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557120914B3E00570809 /* Whisper.framework */; };
-		9365557C20914B3F00570809 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557220914B3E00570809 /* AzureCore.framework */; };
 		9365557D20914B3F00570809 /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557320914B3E00570809 /* Eureka.framework */; };
 		9365557E20914B3F00570809 /* CustomVision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557420914B3E00570809 /* CustomVision.framework */; };
-		9365557F20914B3F00570809 /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557520914B3E00570809 /* AzureData.framework */; };
 		9365558020914B3F00570809 /* Nuke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557620914B3F00570809 /* Nuke.framework */; };
-		9365558120914B3F00570809 /* AzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557720914B3F00570809 /* AzureMobile.framework */; };
-		9365558220914B3F00570809 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557820914B3F00570809 /* KeychainAccess.framework */; };
-		9365558320914B3F00570809 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557920914B3F00570809 /* Willow.framework */; };
 		9365558420914B3F00570809 /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557A20914B3F00570809 /* ImagePicker.framework */; };
 		9365559020914CC700570809 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558520914CC600570809 /* Product.swift */; };
 		9365559120914CC700570809 /* ImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558620914CC600570809 /* ImageCollectionViewController.swift */; };
@@ -44,14 +39,9 @@
 		933D07602091490C00B44655 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		933D07622091490C00B44655 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9365557120914B3E00570809 /* Whisper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Whisper.framework; path = Carthage/Build/iOS/Whisper.framework; sourceTree = "<group>"; };
-		9365557220914B3E00570809 /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = Carthage/Build/iOS/AzureCore.framework; sourceTree = "<group>"; };
 		9365557320914B3E00570809 /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		9365557420914B3E00570809 /* CustomVision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CustomVision.framework; path = Carthage/Build/iOS/CustomVision.framework; sourceTree = "<group>"; };
-		9365557520914B3E00570809 /* AzureData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureData.framework; path = Carthage/Build/iOS/AzureData.framework; sourceTree = "<group>"; };
 		9365557620914B3F00570809 /* Nuke.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nuke.framework; path = Carthage/Build/iOS/Nuke.framework; sourceTree = "<group>"; };
-		9365557720914B3F00570809 /* AzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureMobile.framework; path = Carthage/Build/iOS/AzureMobile.framework; sourceTree = "<group>"; };
-		9365557820914B3F00570809 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
-		9365557920914B3F00570809 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/iOS/Willow.framework; sourceTree = "<group>"; };
 		9365557A20914B3F00570809 /* ImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImagePicker.framework; path = Carthage/Build/iOS/ImagePicker.framework; sourceTree = "<group>"; };
 		9365558520914CC600570809 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		9365558620914CC600570809 /* ImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewController.swift; sourceTree = "<group>"; };
@@ -73,11 +63,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9365557C20914B3F00570809 /* AzureCore.framework in Frameworks */,
-				9365557F20914B3F00570809 /* AzureData.framework in Frameworks */,
-				9365558220914B3F00570809 /* KeychainAccess.framework in Frameworks */,
-				9365558120914B3F00570809 /* AzureMobile.framework in Frameworks */,
-				9365558320914B3F00570809 /* Willow.framework in Frameworks */,
 				9365557D20914B3F00570809 /* Eureka.framework in Frameworks */,
 				9365557E20914B3F00570809 /* CustomVision.framework in Frameworks */,
 				9365558020914B3F00570809 /* Nuke.framework in Frameworks */,
@@ -134,16 +119,11 @@
 		9365557020914B3E00570809 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9365557220914B3E00570809 /* AzureCore.framework */,
-				9365557520914B3E00570809 /* AzureData.framework */,
-				9365557720914B3F00570809 /* AzureMobile.framework */,
 				9365557420914B3E00570809 /* CustomVision.framework */,
 				9365557320914B3E00570809 /* Eureka.framework */,
 				9365557A20914B3F00570809 /* ImagePicker.framework */,
-				9365557820914B3F00570809 /* KeychainAccess.framework */,
 				9365557620914B3F00570809 /* Nuke.framework */,
 				9365557120914B3E00570809 /* Whisper.framework */,
-				9365557920914B3F00570809 /* Willow.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -224,11 +204,6 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/AzureCore.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/AzureData.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/AzureMobile.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Willow.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CustomVision.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Eureka.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Nuke.framework",
@@ -237,11 +212,6 @@
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AzureCore.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AzureData.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AzureMobile.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KeychainAccess.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CustomVision.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Eureka.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Nuke.framework",

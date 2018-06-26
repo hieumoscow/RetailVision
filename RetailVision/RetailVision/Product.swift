@@ -7,7 +7,18 @@
 //
 
 import Foundation
+
+#if canImport(AzureData)
 import AzureData
+#else
+class Document: Codable {
+    public internal(set) var id:         String
+    public internal(set) var resourceId: String
+
+    public init () { id = UUID().uuidString; resourceId = UUID().uuidString }
+    public init (_ id: String) { self.id = id; resourceId = UUID().uuidString }
+}
+#endif
 
 class Product: Document {
     

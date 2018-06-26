@@ -8,11 +8,13 @@
 
 import Foundation
 import UIKit
-import AzureData
-import AzureMobile
 import CustomVision
 import CoreML
 
+#if canImport(AzureData) && canImport(AzureMobile)
+import AzureData
+import AzureMobile
+#endif
 
 enum ProductManagerError : Error {
     case noProductName
@@ -31,8 +33,28 @@ class ProductManager {
         return formatter
     }()
     
+    var products: [Product] = []
     
-    // MARK: - Configure
+    // Selected
+    fileprivate var _selectedProduct: Product? {
+        didSet { setTagIds() }
+    }
+    var selectedProduct: Product {
+        get {
+            if _selectedProduct == nil {
+                _selectedProduct = Product()
+            }
+            return _selectedProduct!
+        }
+        set { _selectedProduct = newValue }
+    }
+    
+    
+    // Clear
+    func clearSelectedProduct() { _selectedProduct = nil }
+
+    
+#if canImport(AzureData) && canImport(AzureMobile)
     
     func configure() {
         
@@ -42,7 +64,7 @@ class ProductManager {
         
         storeDatabaseAccount(functionName: dict?["AMFunctionAppName"], databaseName: dict?["AMDatabaseAccountName"], andConfigure: true)
     }
-    
+
     func storeDatabaseAccount(functionName: String?, databaseName: String?, andConfigure configure: Bool = false) {
         
         print("storeDatabaseAccount functionName: \(functionName ?? "nil") databaseName: \(databaseName ?? "nil")")
@@ -86,33 +108,8 @@ class ProductManager {
             application.keyWindow?.rootViewController?.present(alertController, animated: true) { }
         }
     }
-
-    
-    // MARK: - Products
     
     var collection: DocumentCollection?
-    
-    var products: [Product] = []
-
-    
-    // Selected
-    fileprivate var _selectedProduct: Product? {
-        didSet { setTagIds() }
-    }
-    var selectedProduct: Product {
-        get {
-            if _selectedProduct == nil {
-                _selectedProduct = Product()
-            }
-            return _selectedProduct!
-        }
-        set { _selectedProduct = newValue }
-    }
-    
-    
-    // Clear
-    func clearSelectedProduct() { _selectedProduct = nil }
-    
     
     // Save
     func saveSelectedProduct() {
@@ -157,10 +154,6 @@ class ProductManager {
         DispatchQueue.main.async { completion() }
     }
     
-    
-    // Get
-    func get(productNamed name: String) -> Product? { return products.first { $0.name == name } }
-
     
     // Refresh
     func refresh(_ completion: @escaping () -> Void) {
@@ -236,6 +229,7 @@ class ProductManager {
         
         print("delete product")
         
+        
         collection?.delete(product) { response in
             
             if response.result.isSuccess {
@@ -248,6 +242,115 @@ class ProductManager {
         }
     }
     
+    #else
+    
+    func configure() { visionClient.getKeysFrom(plistNamed: "RetailVision") }
+    
+    static let iso8601Formatter: DateFormatter = {
+        
+        let formatter = DateFormatter()
+        
+        formatter.calendar      = Calendar(identifier: .iso8601)
+        formatter.locale        = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone      = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        
+        return formatter
+    }()
+    
+    let encoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(iso8601Formatter)
+        return encoder
+    }()
+    
+    let decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(iso8601Formatter)
+        return decoder
+    }()
+    
+    func retrieveProducts() {
+        do {
+            if let data = UserDefaults.standard.data(forKey: "com.retailvision.productskey") {
+                products = try decoder.decode([Product].self, from: data)
+            }
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    func commitProduct() {
+        do {
+            let data = try encoder.encode(products)
+            UserDefaults.standard.set(data, forKey: "com.retailvision.productskey")
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    
+    // Save
+    func saveSelectedProduct() {
+        saveSelectedProduct { print("finished") }
+    }
+    
+    func saveSelectedProduct(_ completion: @escaping () -> Void) {
+        
+        if let i = products.index(of: selectedProduct) {
+            products[i] = selectedProduct
+        } else {
+            products.append(selectedProduct)
+        }
+
+        commitProduct()
+        
+        completion()
+    }
+    
+    
+    // Refresh
+    func refresh(_ completion: @escaping () -> Void) { 
+        
+        refreshProducts(completion)
+
+        refreshTags()
+    }
+    
+    func refreshCollection(_ completion: @escaping () -> Void) { refreshProducts(completion) }
+    
+    func refreshProducts(_ completion: @escaping () -> Void) {
+        
+        retrieveProducts()
+        
+        completion()
+    }
+    
+    
+    // Delete
+    func delete(productAt index: Int, _ completion: (Bool) -> ()) {
+        
+        if (index < 0 || index >= products.count) {
+            completion(false); return;
+        }
+        
+        let product = products.remove(at: index)
+        
+        if product == selectedProduct {
+            _selectedProduct = nil
+        }
+        
+        completion(true)
+        
+        print("delete product")
+        
+        commitProduct()
+    }
+    
+    #endif
+    
+    // Get
+    func get(productNamed name: String) -> Product? { return products.first { $0.name == name } }
     
     
     // MARK: - Tags
@@ -279,7 +382,7 @@ class ProductManager {
                 self.tagList = tagList
                 
             } else if let e = r.error {
-                print(e)
+                print("Error refreshing tags: \(e)")
             }
             
             completion(r)

@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import AzureData
-import AzureMobile
-import CustomVision
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
