@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import CustomVision
+//import CustomVision
 import Nuke
 
 
@@ -25,7 +25,7 @@ class ImageCollectionViewController : UICollectionViewController {
     
     var product: Product { return ProductManager.shared.selectedProduct }
     
-    var images: [CustomVision.Image] = [] {
+    var images: [Image] = [] {
         didSet {
             DispatchQueue.main.async { self.emptyView.isHidden = self.images.count > 0 }
         }
@@ -110,7 +110,7 @@ class ImageCollectionViewController : UICollectionViewController {
             
             confirmAlert.addAction(UIAlertAction(title: "Delete", style: .destructive) { a in
                 
-                var imagesToDelete: [CustomVision.Image] = []
+                var imagesToDelete: [Image] = []
                 
                 let selectedItems = selectedPaths.map { self.images[$0.item] }
                 
@@ -269,9 +269,9 @@ class ImageCollectionViewCell : UICollectionViewCell {
         url = thumbnailUrl
         
         if let url = url {
-            Manager.shared.loadImage(with: url, into: imageView)
+            Nuke.loadImage(with: url, into: imageView)
         } else {
-            Manager.shared.cancelRequest(for: imageView)
+            Nuke.cancelRequest(for: imageView)
             imageView.image = nil
         }
         

@@ -13,7 +13,6 @@
 		933D07612091490C00B44655 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 933D075F2091490C00B44655 /* LaunchScreen.storyboard */; };
 		9365557B20914B3F00570809 /* Whisper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557120914B3E00570809 /* Whisper.framework */; };
 		9365557D20914B3F00570809 /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557320914B3E00570809 /* Eureka.framework */; };
-		9365557E20914B3F00570809 /* CustomVision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557420914B3E00570809 /* CustomVision.framework */; };
 		9365558020914B3F00570809 /* Nuke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557620914B3F00570809 /* Nuke.framework */; };
 		9365558420914B3F00570809 /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365557A20914B3F00570809 /* ImagePicker.framework */; };
 		9365559020914CC700570809 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558520914CC600570809 /* Product.swift */; };
@@ -29,6 +28,14 @@
 		9365559A20914CC700570809 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9365558F20914CC700570809 /* ImageExtensions.swift */; };
 		93978F782092B6FD00DC78C3 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93978F772092B6FD00DC78C3 /* UtilityExtensions.swift */; };
 		93978F7A2092B8A400DC78C3 /* RetailVision.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93978F792092B8A400DC78C3 /* RetailVision.plist */; };
+		C749731622270D2100D16B46 /* CustomVisionClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749730E22270D2000D16B46 /* CustomVisionClientError.swift */; };
+		C749731722270D2100D16B46 /* CustomVisionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749730F22270D2000D16B46 /* CustomVisionResponse.swift */; };
+		C749731822270D2100D16B46 /* CustomVisionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749731022270D2000D16B46 /* CustomVisionClient.swift */; };
+		C749731922270D2100D16B46 /* CustomVisionKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749731122270D2000D16B46 /* CustomVisionKeys.swift */; };
+		C749731A22270D2100D16B46 /* CustomVisionExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749731222270D2000D16B46 /* CustomVisionExport.swift */; };
+		C749731B22270D2100D16B46 /* CustomVisionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749731322270D2000D16B46 /* CustomVisionModels.swift */; };
+		C749731C22270D2100D16B46 /* CustomVisionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749731422270D2000D16B46 /* CustomVisionApi.swift */; };
+		C749731D22270D2100D16B46 /* CustomVisionClientExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749731522270D2000D16B46 /* CustomVisionClientExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +47,6 @@
 		933D07622091490C00B44655 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9365557120914B3E00570809 /* Whisper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Whisper.framework; path = Carthage/Build/iOS/Whisper.framework; sourceTree = "<group>"; };
 		9365557320914B3E00570809 /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
-		9365557420914B3E00570809 /* CustomVision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CustomVision.framework; path = Carthage/Build/iOS/CustomVision.framework; sourceTree = "<group>"; };
 		9365557620914B3F00570809 /* Nuke.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nuke.framework; path = Carthage/Build/iOS/Nuke.framework; sourceTree = "<group>"; };
 		9365557A20914B3F00570809 /* ImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImagePicker.framework; path = Carthage/Build/iOS/ImagePicker.framework; sourceTree = "<group>"; };
 		9365558520914CC600570809 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -56,6 +62,14 @@
 		9365558F20914CC700570809 /* ImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		93978F772092B6FD00DC78C3 /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 		93978F792092B8A400DC78C3 /* RetailVision.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RetailVision.plist; sourceTree = "<group>"; };
+		C749730E22270D2000D16B46 /* CustomVisionClientError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionClientError.swift; sourceTree = "<group>"; };
+		C749730F22270D2000D16B46 /* CustomVisionResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionResponse.swift; sourceTree = "<group>"; };
+		C749731022270D2000D16B46 /* CustomVisionClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionClient.swift; sourceTree = "<group>"; };
+		C749731122270D2000D16B46 /* CustomVisionKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionKeys.swift; sourceTree = "<group>"; };
+		C749731222270D2000D16B46 /* CustomVisionExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionExport.swift; sourceTree = "<group>"; };
+		C749731322270D2000D16B46 /* CustomVisionModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionModels.swift; sourceTree = "<group>"; };
+		C749731422270D2000D16B46 /* CustomVisionApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionApi.swift; sourceTree = "<group>"; };
+		C749731522270D2000D16B46 /* CustomVisionClientExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVisionClientExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +78,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9365557D20914B3F00570809 /* Eureka.framework in Frameworks */,
-				9365557E20914B3F00570809 /* CustomVision.framework in Frameworks */,
 				9365558020914B3F00570809 /* Nuke.framework in Frameworks */,
 				9365558420914B3F00570809 /* ImagePicker.framework in Frameworks */,
 				9365557B20914B3F00570809 /* Whisper.framework in Frameworks */,
@@ -94,6 +107,14 @@
 		933D07552091490B00B44655 /* RetailVision */ = {
 			isa = PBXGroup;
 			children = (
+				C749731422270D2000D16B46 /* CustomVisionApi.swift */,
+				C749731022270D2000D16B46 /* CustomVisionClient.swift */,
+				C749730E22270D2000D16B46 /* CustomVisionClientError.swift */,
+				C749731522270D2000D16B46 /* CustomVisionClientExtensions.swift */,
+				C749731222270D2000D16B46 /* CustomVisionExport.swift */,
+				C749731122270D2000D16B46 /* CustomVisionKeys.swift */,
+				C749731322270D2000D16B46 /* CustomVisionModels.swift */,
+				C749730F22270D2000D16B46 /* CustomVisionResponse.swift */,
 				9365558A20914CC600570809 /* kwjewelry.mlmodel */,
 				933D07622091490C00B44655 /* Info.plist */,
 				933D07562091490B00B44655 /* AppDelegate.swift */,
@@ -119,7 +140,6 @@
 		9365557020914B3E00570809 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9365557420914B3E00570809 /* CustomVision.framework */,
 				9365557320914B3E00570809 /* Eureka.framework */,
 				9365557A20914B3F00570809 /* ImagePicker.framework */,
 				9365557620914B3F00570809 /* Nuke.framework */,
@@ -204,7 +224,6 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/CustomVision.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Eureka.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Nuke.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ImagePicker.framework",
@@ -212,7 +231,6 @@
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CustomVision.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Eureka.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Nuke.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ImagePicker.framework",
@@ -220,7 +238,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		933D0769209149E100B44655 /* Carthage Outdated Warning */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -234,7 +252,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -246,13 +264,21 @@
 				9365559120914CC700570809 /* ImageCollectionViewController.swift in Sources */,
 				9365559920914CC700570809 /* CurrencyFormatter.swift in Sources */,
 				93978F782092B6FD00DC78C3 /* UtilityExtensions.swift in Sources */,
+				C749731B22270D2100D16B46 /* CustomVisionModels.swift in Sources */,
 				9365559820914CC700570809 /* ProductManager.swift in Sources */,
+				C749731C22270D2100D16B46 /* CustomVisionApi.swift in Sources */,
 				9365559620914CC700570809 /* ProductTableViewController.swift in Sources */,
+				C749731822270D2100D16B46 /* CustomVisionClient.swift in Sources */,
+				C749731A22270D2100D16B46 /* CustomVisionExport.swift in Sources */,
 				9365559420914CC700570809 /* ProductFormViewController.swift in Sources */,
 				9365559320914CC700570809 /* ClassificationViewController.swift in Sources */,
+				C749731922270D2100D16B46 /* CustomVisionKeys.swift in Sources */,
+				C749731722270D2100D16B46 /* CustomVisionResponse.swift in Sources */,
 				9365559220914CC700570809 /* ProductNavigationController.swift in Sources */,
+				C749731622270D2100D16B46 /* CustomVisionClientError.swift in Sources */,
 				9365559520914CC700570809 /* kwjewelry.mlmodel in Sources */,
 				9365559A20914CC700570809 /* ImageExtensions.swift in Sources */,
+				C749731D22270D2100D16B46 /* CustomVisionClientExtensions.swift in Sources */,
 				933D07572091490B00B44655 /* AppDelegate.swift in Sources */,
 				9365559720914CC700570809 /* ViewControllerExtensions.swift in Sources */,
 				9365559020914CC700570809 /* Product.swift in Sources */,
@@ -400,7 +426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N7C38P267Q;
+				DEVELOPMENT_TEAM = B84C73353E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -412,7 +438,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.colbylwilliams.RetailVision;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -422,7 +448,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N7C38P267Q;
+				DEVELOPMENT_TEAM = B84C73353E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -434,7 +460,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.colbylwilliams.RetailVision;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

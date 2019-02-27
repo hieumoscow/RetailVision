@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import CustomVision
+//import CustomVision
 import CoreML
 
 #if canImport(AzureData) && canImport(AzureMobile)

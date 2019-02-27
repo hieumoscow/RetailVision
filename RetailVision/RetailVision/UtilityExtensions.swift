@@ -38,3 +38,42 @@ extension Bundle {
         return nil
     }
 }
+
+extension Optional where Wrapped == String {
+    
+    var isNilOrEmpty: Bool {
+        return self != nil && !self!.isEmpty
+    }
+    
+    var valueOrEmpty: String {
+        return self != nil ? self! : ""
+    }
+}
+
+extension Optional where Wrapped: CustomStringConvertible {
+    
+    var valueOrNilString: String {
+        return self?.description ?? "nil"
+    }
+}
+
+
+extension Optional where Wrapped == Date {
+    
+    var valueOrEmpty: String {
+        return self != nil ? "\(self!.timeIntervalSince1970)" : ""
+    }
+    
+    var valueOrNilString: String {
+        return self != nil ? "\(self!.timeIntervalSince1970)" : "nil"
+    }
+}
+
+
+
+extension Data {
+    mutating func appendString(_ string: String) {
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        append(data!)
+    }
+}

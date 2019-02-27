@@ -7,8 +7,8 @@
 	<key>AMFunctionAppName</key>
 	<string>AZURE_MOBILE_FUNCTION_APP_NAME</string>
 	<key>CustomVisionProjectId</key>
-	<string>CUSTOM_VISION_PROJECT_ID</string>
+	<string>2eabd040-b534-4325-94d3-fad581571444</string>
 	<key>CustomVisionTrainingKey</key>
-	<string>CUSTOM_VISION_TRAINING_KEY</string>
+	<string>0a7e79721f034ce1b25ca85d5f06a35a</string>
 </dict>
 </plist>
