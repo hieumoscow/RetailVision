@@ -45,7 +45,7 @@ public extension CustomVisionClient {
                     }
                 } else {
                     
-                    self.getIteration(iteration, withDelay: self.pollDelay + 5) { r in
+                    self.getIteration(iteration, withDelay: self.pollDelay) { r in
                         
                         if let iteration = r.resource, iteration.Exportable {
                             
@@ -72,12 +72,18 @@ public extension CustomVisionClient {
     }
     
     func getIteration(_ iteration: Iteration, withDelay delay: Double, _ completion: @escaping (CustomVisionResponse<Iteration>) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (10)) {
+//             Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            print ("getIteration: " + String(iteration.Exportable))
             self.getIteration(withId: iteration.Id) { r in
-                if let i = r.resource, !i.Exportable {
-                    self.getIteration(i, withDelay: delay, completion)
-                } else {
+                let i = r.resource!
+                if i.Exportable && i.TrainedAt != nil {
+                    print ("getIteration i: " + String(i.Exportable))
                     completion(r)
+                }
+                else {
+                    print ("iteration: " + i.Id + " " + i.Exportable.description )
+                    self.getIteration(i, withDelay: delay, completion)
                 }
             }
         }

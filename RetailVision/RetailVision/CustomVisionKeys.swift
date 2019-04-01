@@ -56,7 +56,7 @@ struct CustomVisionKeys : Codable {
             return customKeys
         }
         
-        if let visionData = Bundle.main.plistData(named: "CustomVision"),
+        if let visionData = Bundle.main.plistData(named: "RetailVision"),
             let visionKeys = try? plistDecoder.decode(CustomVisionKeys.self, from: visionData),
             (visionKeys.hasValidTrainingKey || visionKeys.hasValidPredictionKey) {
             
